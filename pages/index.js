@@ -1,8 +1,17 @@
+// const https = require('https');
+// const httpsAgent = new https.Agent({
+//     rejectUnauthorized: false,
+//   });
+
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useState,useEffect } from 'react'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+export default function Home({courses}) {
+  const {data}=courses;
+  console.log(courses)
   return (
     <div className={styles.container}>
       <Head>
@@ -11,59 +20,40 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
+      <main>
+        <h1>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+        <Link href="/about">About</Link>
+        <Link href="/blog">Blog</Link>
+        <section id='courses'>
+          <div className='row'>
+            {data?.map(course=>(
+              <div key={course.courseId} className='col-lg-4'>
+                  <Image loader={() => course.photoUrl} src={course.photoUrl} 
+                    alt={course.courseName} width={400} height={200}
+                    quality={100}
+                    />
+                  <h4>
+                    <Link href={`/course/${course.courseId}`}>
+                      <a>{course.courseName}</a>
+                    </Link>
+                    </h4>
+              </div>
+            ))}
+          </div>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        </section>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
+}
+
+export async function getStaticProps(){
+  const response= await fetch("http://elxanquliyev2-001-site3.htempurl.com/api/course")
+  const data=await response.json()
+  return {
+    props:{
+    courses:{data},
+  }}
 }
