@@ -35,7 +35,7 @@ export default function Home({courses}) {
                     quality={100}
                     />
                   <h4>
-                    <Link href={`/course/${course.courseId}`}>
+                    <Link href={`/courses/${course.courseId}`}>
                       <a>{course.courseName}</a>
                     </Link>
                     </h4>
