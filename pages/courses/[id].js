@@ -3,15 +3,14 @@ import React from 'react'
 import Image from "next/image";
 const CourseDetail = ({course}) => {
     const {data} = course ?? {}
-    console.log(data)
-  return (
-      <>
+    return (
+    <>
         {course ?
         <div>
             <Image loader={() => data.photoUrl} src={data.photoUrl}
-             alt={data.courseName} width={400} height={200}
+              alt={data.courseName} width={400} height={200}
             />
-            <h3>{data.courseName}</h3> 
+            <h3>{data.courseName}</h3>zp
         </div>
 
     :<p>Loading...</p>}
