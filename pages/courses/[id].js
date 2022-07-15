@@ -27,7 +27,7 @@ export async function getStaticPaths(){
 
 export async function getStaticProps({params}){
     const {id}=params;
-    const response= await fetch(`http://elxanquliyev2-001-site3.htempurl.com/api/course/${id}`)
+    const response= await fetch(`${process.env.API_URL}/course/${id}`)
     const data=await response.json()
     return {
         props:{

@@ -11,7 +11,6 @@ import styles from '../styles/Home.module.css'
 
 export default function Home({courses}) {
   const {data}=courses;
-  console.log(courses)
   return (
     <div className={styles.container}>
       <Head>
@@ -27,6 +26,7 @@ export default function Home({courses}) {
         <Link href="/about">About</Link>
         <Link href="/blog">Blog</Link>
         <section id='courses'>
+          <div className='container'>
           <div className='row'>
             {data?.map(course=>(
               <div key={course.courseId} className='col-lg-4'>
@@ -42,7 +42,7 @@ export default function Home({courses}) {
               </div>
             ))}
           </div>
-
+          </div>
         </section>
       </main>
     </div>
@@ -50,7 +50,7 @@ export default function Home({courses}) {
 }
 
 export async function getStaticProps(){
-  const response= await fetch("http://elxanquliyev2-001-site3.htempurl.com/api/course")
+  const response= await fetch(`${process.env.API_URL}/course`)
   const data=await response.json()
   return {
     props:{

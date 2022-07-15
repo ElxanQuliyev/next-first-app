@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.css'
 import Layout from '../components/layout/layout'
 import '../styles/globals.css'
 
