@@ -49,8 +49,8 @@ export default function Home({courses}) {
   )
 }
 
-export async function getStaticProps(){
-  const response= await fetch(`${process.env.API_URL}/course`)
+export async function getStaticProps({locale}){
+  const response= await fetch(`${process.env.API_URL}/course/${locale.toUpperCase()}`)
   const data=await response.json()
   return {
     props:{

@@ -2,16 +2,20 @@ import React from 'react'
 import { useState ,useEffect} from 'react'
 import Link from 'next/link';
 import classes from "./header.module.css";
+import { useRouter } from 'next/router';
+import { FormattedMessage, useIntl } from "react-intl";
 const Header = () => {
+  const {locale}=useRouter();
   const [categories,setCategories]=useState([]);
   const getCategories=async()=>{
     const response= await(await fetch(`${process.env.API_URL}/category/getall`)).json();
     setCategories(response)
   }
-  console.log(categories)
   useEffect(() => {
     getCategories();
   }, [])
+  const intl = useIntl();
+
   return (
     <header className={`bg-dark ${classes.header}`}>
       <div className="container">
@@ -25,34 +29,46 @@ const Header = () => {
           <nav className={`${classes.menu}`}>
             <ul className='d-flex list-unstyled m-0 p-0'>
               <li>
-                <Link href="#">item 1</Link>
+                <Link href="/">
+                  <FormattedMessage id="header.home" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/">
+                  <FormattedMessage id="header.about" />
+                </Link>
+              </li>
+              <li>
+                <Link href="/" locale="az">AZ</Link>
+                <Link href="/" locale="tr">TR</Link>
+
               </li>
               <li className={classes.hover_li}>
-                <Link href="#">Categories</Link>
+                {/* <Link href="/category">Categories</Link> */}
                 <ul className={`list-unstyled ${classes.dropped_menu}`}>
-                  {categories?.map(category=>(
+                  {/* {categories?.map(category=>(
                     <li className={classes.hover_li} key={category.categoryId}>
-                      <Link href={`#`}>{category.categoryName}</Link>
+                      <Link href={`/category`}><a>{category.categoryName}</a></Link>
                     {category.childrens && category.childrens.length>0 &&(
                       <ul className={`list-unstyled ${classes.dropped_menu && classes.right}`}>
                         {category.childrens.map(child=>(
-                          <li key={child.id}><Link href={`#`}>{child.name}</Link></li>
+                          <li key={child.id}><Link href={`/`}>{child.name}</Link></li>
                         ))}
                       </ul>
                     )}
                     </li>
-                  ))}
+                  ))} */}
                 </ul>
               </li>
-              <li>
-                <Link href="#">item 3</Link>
+              {/* <li>
+                <Link href="/">item 3</Link>
               </li>
               <li>
-                <Link href="#">item 4</Link>
+                <Link href="/">item 4</Link>
               </li>
               <li>
-                <Link href="#">item 5</Link>
-              </li>
+                <Link href="/">item 5</Link>
+              </li> */}
             </ul>
           </nav>
           </div>
