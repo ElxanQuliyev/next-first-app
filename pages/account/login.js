@@ -1,36 +1,37 @@
 import React, { useState } from 'react'
-import { Formik, Field, Form } from 'formik';
 import classes from "../../styles/login-form.module.scss"
 import Link from 'next/link';
-const LoginPage = () => {
-    const [email,setEmail]=useState("");
-    const [password,setPassword]=useState("");
+import { useForm } from 'react-hook-form';
+import { userService } from '../../services';
+import { useRouter } from 'next/router';
 
-    const submitHandler=(e)=>{
-        e.preventDefault();
-        // loginAction({email,password})
+const LoginPage = () => {
+    const router=useRouter()
+    const { register, handleSubmit, formState } = useForm();
+
+    const submitHandler=(value)=>{
+        console.log(value)
+        return userService.login({email:value.email,password:value.password}).then((res)=>{
+            if(res){
+                router.push("/")
+            }
+        })
     }
 
   return (
     <div className={classes.login_box + ' p-3'}>
         <h4>Login</h4>
-        <Formik
-            initialValues={{
-                username: '',
-                password: '',
-            }}
 
-            onSubmit={() => {
-
-            }}
-        >
-            <Form>
-                <Field id="username" className="form-control" name="username" placeholder="Username" />
-                <Field className="form-control" type="password" id="password" name="password" placeholder="Password" />
+            <form onSubmit={handleSubmit(submitHandler)}>
+                <input
+                    {...register("email")}
+                 id="email" className="form-control" name="email" placeholder="email" />
+                <input
+                    {...register("password")}
+                 className="form-control" type="password" id="password" name="password" placeholder="Password" />
                 <p>{`Don't`} you have a account? <Link href="/account/register">Register!</Link></p>
                 <button className='btn btn-warning' type="submit">Login</button>
-            </Form>
-        </Formik>
+            </form>
     </div>
   )
 }

@@ -8,13 +8,9 @@ import az from "../lang/az.json";
 import { Provider } from "react-redux";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
-import store from "../store";
+// import store from "../store";
 
 function MyApp({ Component, pageProps }) {
-  const persistor = persistStore(store, {}, function () {
-    persistor.persist();
-  });
-
   const { locale } = useRouter();
   const messages = {
     tr,
@@ -22,11 +18,11 @@ function MyApp({ Component, pageProps }) {
   };
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      <Provider store={store}>
+      {/* <Provider store={store}> */}
         <Layout>
           <Component {...pageProps} />
         </Layout>
-      </Provider>
+      {/* </Provider> */}
     </IntlProvider>
   );
 }

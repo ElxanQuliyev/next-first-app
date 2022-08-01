@@ -5,6 +5,10 @@ const nextConfig = {
   images:{
     domains:['https://img-c.udemycdn.com/']
   },
+  publicRuntimeConfig: {
+    apiUrl:"http://elxanquliyev2-001-site3.htempurl.com/api",
+  },
+
   env:{
     API_URL:process.env.API_URL
   },

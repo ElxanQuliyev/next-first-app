@@ -1,52 +1,60 @@
 import React, { useEffect, useState } from 'react'
-import { Formik, Field, Form } from 'formik';
 import classes from "../../styles/login-form.module.scss"
 import Link from 'next/link';
-import { register } from '../../slices/auth';
 import { useSelector,useDispatch } from 'react-redux';
-import { clearMessage } from '../../slices/message';
+import { useForm } from 'react-hook-form';
+import { userService } from '../../services';
+import { useRouter } from 'next/router';
 const RegisterPage = () => {
+    const router=useRouter();
     const [successful, setSuccessful] = useState(false);
-    const { message } = useSelector((state) => state.message);
-    const dispatch = useDispatch();
-    useEffect(() => {
-      dispatch(clearMessage());
-    }, [dispatch]);
+    const { register, handleSubmit, formState } = useForm();
+
 
     const submitHandler=(values)=>{
-        const {firstname,lastname,email,password,confirmPassword}=values;
         console.log(values)
-        setSuccessful(false);
-        dispatch(register(firstname,lastname,email,password,confirmPassword))
-        .then(()=>setSuccessful(true))
-        .catch(()=>setSuccessful(false))
+        return userService.register(values)
+        .then((c)=>{
+            setSuccessful(true);
+            console.log(c)
+            if(c.status===201){
+                router.push("/account/login")
+            }
+        })
+        .catch((e)=>console.log(e))
     }
+    console.log(successful)
+
 
 return (
     <div className={classes.login_box + ' p-3'}>
         <h4>Register</h4>
-        <Formik
-            initialValues={{
-                email: '',
-                firstname:'',
-                lastname:'',
-                password: '',
-                confirmPassword: '',
-
-            }}
-            onSubmit={submitHandler}
-        >
-            <Form>
-                <Field id="firstname" className="form-control" name="firstname" placeholder="Firstname" />
-                <Field id="lastname" className="form-control" name="lastname" placeholder="Lastname" />
-                <Field id="email" className="form-control" name="email" placeholder="Username" />
-                <Field className="form-control" type="password" id="password" name="password" placeholder="Password" />
-                <Field className="form-control" type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" />
-                
+            <form onSubmit={handleSubmit(submitHandler)}>
+                <input id="firstname"
+                     className="form-control" name="firstname" placeholder="Firstname" 
+                     {...register('firstname')} 
+                     />
+                <input id="lastname" 
+                className="form-control"
+                 name="lastname" placeholder="Lastname" 
+                 {...register('lastname')}
+                 />
+                <input id="email"
+                 className="form-control" name="email" placeholder="Username"
+                 {...register('email')}
+                 />
+                <input className="form-control" type="password" id="password" name="password" 
+                placeholder="Password"
+                {...register('password')}
+                />
+                <input className="form-control" type="password"
+                 id="confirmPassword" name="confirmPassword"
+                  placeholder="Confirm Password" 
+                  {...register('confirmPassword')}
+                  />
                 <p>Have you account? <Link href="/account/login">Login!</Link></p>
                 <button className='btn btn-warning' type="submit">Register</button>
-            </Form>
-        </Formik>
+            </form>
     </div>
   )
 }
