@@ -25,23 +25,28 @@ const Header = () => {
               <h4>Logo</h4>
             </div>
           </div>
-          <div className="col-auto">
+          <div className="col-7">
           <nav className={`${classes.menu}`}>
-            <ul className='d-flex list-unstyled m-0 p-0'>
+            <ul className='d-flex list-unstyled m-0 p-0 align-items-center'>
               <li>
                 <Link href="/">
-                  <FormattedMessage id="header.home" />
+                  <a>
+                    <FormattedMessage id="header.home" />
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/">
-                  <FormattedMessage id="header.about" />
+                  <a>
+                    <FormattedMessage id="header.about" />
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/" locale="az">AZ</Link>
+              </li>
+              <li>
                 <Link href="/" locale="tr">TR</Link>
-
               </li>
               <li className={classes.hover_li}>
                 {/* <Link href="/category">Categories</Link> */}
@@ -59,6 +64,9 @@ const Header = () => {
                     </li>
                   ))} */}
                 </ul>
+              </li>
+              <li>
+                <Link href="/account/login">Login</Link>
               </li>
               {/* <li>
                 <Link href="/">item 3</Link>

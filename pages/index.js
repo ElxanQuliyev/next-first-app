@@ -6,10 +6,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState,useEffect } from 'react'
 import styles from '../styles/Home.module.css'
 
-export default function Home({courses}) {
+export default function Home({courses,locale}) {
+  useEffect(() => {
+    // Perform localStorage action
+    const item = localStorage.getItem('user')
+  }, [])
   const {data}=courses;
   return (
     <div className={styles.container}>
@@ -35,7 +40,7 @@ export default function Home({courses}) {
                     quality={100}
                     />
                   <h4>
-                    <Link href={`/courses/${course.courseId}`}>
+                    <Link href={`/courses/${course.courseId}`} locale={locale}>
                       <a>{course.courseName}</a>
                     </Link>
                     </h4>
@@ -55,5 +60,9 @@ export async function getStaticProps({locale}){
   return {
     props:{
     courses:{data},
-  }}
+    locale
+  },
+  revalidate:5
+
+}
 }
