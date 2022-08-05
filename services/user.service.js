@@ -4,9 +4,7 @@ import getConfig from 'next/config';
 const {publicRuntimeConfig} =getConfig();
 const baseUrl = `${publicRuntimeConfig.apiUrl}`;
 
-const userSubject=new BehaviorSubject(process.browser 
-    &&
-     JSON.parse(localStorage.getItem("user")))
+const userSubject=new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem("user")))
 export const userService={
     user:userSubject.asObservable(),
     get userValue(){return userSubject.value},

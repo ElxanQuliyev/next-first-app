@@ -10,7 +10,6 @@ const LoginPage = () => {
     const { register, handleSubmit, formState } = useForm();
 
     const submitHandler=(value)=>{
-        console.log(value)
         return userService.login({email:value.email,password:value.password}).then((res)=>{
             if(res){
                 router.push("/")
